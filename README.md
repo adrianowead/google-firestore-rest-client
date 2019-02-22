@@ -19,9 +19,11 @@ Integrate client PHP with REST Api from Google Cloud Firestore.
 
 It's reommended to install with composer:
 
-    composer require morrislaptop/firestore-php
+    composer require wead/google-firestore-rest-client
 
 ## Usage
+
+Sample usage
 
 ```php
 <?php
