@@ -1,0 +1,29 @@
+{
+    "name": "wead/google-firestore-rest-client",
+    "keywords": ["firebase", "google", "sdk", "api", "database"],
+    "require": {
+        "php": ">=5.6.0",
+        "firebase/php-jwt": "5.0",
+        "guzzlehttp/guzzle": "~6.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Adriano Wead",
+            "email": "adriano_mail@hotmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-0": {
+            "WeadFirestoreClient": "src/"
+        },
+        "psr-4": {
+            "Wead\\Firestore\\": "src/",
+            "Wead\\Firestore\\Trait\\": "src/Traits"
+        },
+        "files": [
+            "src/WeadFirestoreClient.php"
+        ]
+    }
+}
