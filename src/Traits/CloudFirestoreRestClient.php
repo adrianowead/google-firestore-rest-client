@@ -2,11 +2,11 @@
 
 namespace Wead\Firestore\Traits;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
 use Wead\Firestore\Traits\CloudFirestoreAccountService;
 use Wead\Firestore\Traits\CloudFirestoreCollectionResource;
 use Wead\Firestore\Traits\CloudFirestoreDocumentResource;
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Request;
 
 trait CloudFirestoreRestClient
 {
@@ -30,7 +30,17 @@ trait CloudFirestoreRestClient
 
     private static function replaceSpecialCharacters($text)
     {
-        return preg_replace("/&([a-z])[a-z]+;/i", "$1", htmlentities($text));
+        $text = preg_replace("/&([a-z])[a-z]+;/i", "$1", htmlentities($text));
+
+        return $text;
+    }
+
+    private static function clearName($name)
+    {
+        $name = self::replaceSpecialCharacters($name);
+        $name = str_replace(['/'], '', $name);
+
+        return $name;
     }
 
     private function makeRequestApi($method, $uri, $options = [])

@@ -10,6 +10,8 @@ trait CloudFirestoreDocumentResource
     {
         $collection->name = substr($collection->name, -1) == '/' ? substr($collection->name, 0, -1) : $collection->name;
 
+        $name = self::clearName($name);
+
         $uri = "{$collection->name}/{$name}";
 
         if (!$createDefaultDoc) {
@@ -30,6 +32,8 @@ trait CloudFirestoreDocumentResource
         $doc->name = substr($doc->name, -1) == '/' ? substr($doc->name, 0, -1) : $doc->name;
         $doc->fullName = substr($doc->fullName, -1) == '/' ? substr($doc->fullName, 0, -1) : $doc->fullName;
 
+        $doc->name = self::clearName($doc->name);
+
         $uri = $this->getBaseUri($doc->fullName);
 
         $fieldsMapped = self::mapFieldValues(array_reverse(explode("/", $doc->name))[0], $fields);
@@ -39,6 +43,8 @@ trait CloudFirestoreDocumentResource
 
         $response->objectType = "document";
         $response->name = str_replace($this->getBaseUri(), '', $uri);
+
+        $response->name = self::clearName($response->name);
 
         return $response;
     }
@@ -137,6 +143,8 @@ trait CloudFirestoreDocumentResource
     {
         $doc->name = substr($doc->name, -1) == '/' ? substr($doc->name, 0, -1) : $doc->name;
         $doc->fullName = substr($doc->fullName, -1) == '/' ? substr($doc->fullName, 0, -1) : $doc->fullName;
+
+        $doc->name = self::clearName($doc->name);
 
         $uri = $this->getBaseUri($doc->fullName);
 

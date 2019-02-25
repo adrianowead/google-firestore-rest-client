@@ -8,6 +8,8 @@ trait CloudFirestoreCollectionResource
 
     private function collection($name, $createDefaultDoc = false)
     {
+        $name = self::clearName($name);
+
         $uri = "/documents/{$name}/";
 
         if (!$createDefaultDoc) {
