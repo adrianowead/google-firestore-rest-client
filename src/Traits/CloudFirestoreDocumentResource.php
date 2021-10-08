@@ -106,7 +106,7 @@ trait CloudFirestoreDocumentResource
                 }
 
                 $result = "carbonTimestampField";
-            } else if ((filter_var($value, FILTER_VALIDATE_INT, ['min_range' => 0]) != false || $value == "0" ) && substr_count($value, ".") == 0) {
+            } else if (is_numeric($value) && (filter_var($value, FILTER_VALIDATE_INT, ['min_range' => 0]) != false || $value == "0" ) && substr_count($value, ".") == 0) {
                 $result = "intField";
             } else if (is_numeric($value) && substr_count($value, ".") > 0 && preg_match('/[^0-9.]/', $value) == 0 && str_split($value)[0] != "0" && substr($value, -1) != "0") {
                 $result = "doubleField";
