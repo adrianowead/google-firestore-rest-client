@@ -14,8 +14,8 @@ trait CloudFirestoreRestClient
 
     protected $baseUri = "https://firestore.googleapis.com/v1beta1/projects/**PROJECT_ID**/databases/(default)";
 
-    abstract public function getDocument();
-    abstract public function removeDocument();
+    abstract public function getDocument($collection, $name);
+    abstract public function removeDocument($doc);
 
     private function getBaseUri($append = null)
     {

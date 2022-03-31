@@ -4,7 +4,7 @@ namespace Wead\Firestore\Traits;
 
 trait CloudFirestoreDocumentResource
 {
-    abstract public function getDocument();
+    abstract public function getDocument($collection, $name);
 
     private function document($collection, $name, $createDefaultDoc = false)
     {
