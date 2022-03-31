@@ -80,7 +80,50 @@ trait CloudFirestoreDocumentResource
             return ["timestampValue" => $val->toIso8601ZuluString()];
         };
 
-        $arrayField = function ($val, $testValue) use ($stringField, $intField, $doubleField, $nullField, $booleanField) {
+        $mapField = function ($val, $testValue) use ($stringField, $intField, $doubleField, $nullField, $booleanField, &$arrayField, &$mapField) {
+            $result = [
+                "mapValue" => [
+                    "fields" => new \stdClass,
+                ],
+            ];
+
+            foreach ($val as $k => $v) {
+                if ($v) {
+                    $fnc = $testValue($v);
+
+                    $tmpValue = $$fnc($v, $testValue);
+
+                    if(is_array($tmpValue)) {
+                        if(isset($tmpValue['arrayValue'])) {
+                            $tmpValue = $tmpValue['arrayValue']['values'];
+                        } else if(isset($tmpValue['mapValue'])) {
+                            $tmpValue = $tmpValue['mapValue']['fields'];
+                        }
+
+                        if(!is_array($v)) {
+                            $result["mapValue"]["fields"]->{count((array) $result["mapValue"]["fields"])} = $v;
+                        } else {
+                            foreach($v as $fName => $fValue) {
+                                foreach($tmpValue as $tmpK => $tmpV) {
+                                    if(!is_array($tmpV)) {
+                                        $result["mapValue"]["fields"]->{$tmpK} = $v;
+                                    } else {
+                                        if(array_values($tmpV)[0] == $fValue) {
+                                            $result["mapValue"]["fields"]->{$fName} = $tmpV;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return $result;
+        };
+
+        $arrayField = function ($val, $testValue) use ($stringField, $intField, $doubleField, $nullField, $booleanField, &$mapField, &$arrayField) {
             $result = [
                 "arrayValue" => [
                     "values" => [],
@@ -118,6 +161,13 @@ trait CloudFirestoreDocumentResource
                 $result = "booleanField";
             } else if (is_array($value)) {
                 $result = "arrayField";
+
+                foreach($value as $v) {
+                    if(is_array($v)) {
+                        $result = "mapField";
+                        break;
+                    }
+                }
             }
 
             if (!$result) {
@@ -131,9 +181,9 @@ trait CloudFirestoreDocumentResource
             $fnc = $testValue($value);
             $out["fields"][$field] = $$fnc($value, $testValue);
 
-            if (!$out["fields"][$field]) {
-                unset($out["fields"][$field]);
-            }
+            // if (!$out["fields"][$field]) {
+            //     unset($out["fields"][$field]);
+            // }
         }
 
         return $out;
