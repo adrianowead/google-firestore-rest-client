@@ -104,35 +104,22 @@ trait CloudFirestoreDocumentFieldType
         ];
 
         foreach ($val as $k => $v) {
-            if ($v) {
+            if(is_array($v)) {
                 $fnc = self::testValue($v);
-
                 $tmpValue = call_user_func([self::class, $fnc], $v);
 
-                if(is_array($tmpValue)) {
-                    if(isset($tmpValue['arrayValue'])) {
-                        $tmpValue = $tmpValue['arrayValue']['values'];
-                    } else if(isset($tmpValue['mapValue'])) {
-                        $tmpValue = $tmpValue['mapValue']['fields'];
-                    }
+                $result["mapValue"]["fields"]->{$k} = $tmpValue;
+            } else {
+                $fnc = self::testValue($v);
+                $tmpValue = call_user_func([self::class, $fnc], $v);
 
-                    if(!is_array($v)) {
-                        $result["mapValue"]["fields"]->{$k} = $v;
-                    } else {
-                        foreach($v as $fName => $fValue) {
-                            foreach($tmpValue as $tmpK => $tmpV) {
-                                if(!is_array($tmpV)) {
-                                    $result["mapValue"]["fields"]->{$tmpK} = $v;
-                                } else {
-                                    if(array_values($tmpV)[0] == $fValue) {
-                                        $result["mapValue"]["fields"]->{$fName} = $tmpV;
-                                        break;
-                                    }
-                                }
-                            }
-                        }
+                if(is_numeric($k)) {
+                    while(isset($result["mapValue"]["fields"]->{$k})) {
+                        $k++;
                     }
                 }
+
+                $result["mapValue"]["fields"]->{$k} = $tmpValue;
             }
         }
 
