@@ -192,4 +192,9 @@ trait CloudFirestoreDocumentFieldType
 
         return $result;
     }
+
+    protected static function getCallingMethodName() {
+        list(,, $caller) = debug_backtrace(false);
+        return $caller['function'];
+    }
 }
