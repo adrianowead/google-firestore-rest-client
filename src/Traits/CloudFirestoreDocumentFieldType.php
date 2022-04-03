@@ -178,8 +178,8 @@ trait CloudFirestoreDocumentFieldType
         } else if (is_array($value)) {
             $result = "arrayField";
 
-            foreach($value as $v) {
-                if(is_array($v)) {
+            foreach($value as $k => $v) {
+                if(is_string($k) || self::getCallingMethodName() == 'arrayField') {
                     $result = "mapField";
                     break;
                 }
