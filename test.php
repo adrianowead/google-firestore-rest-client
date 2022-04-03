@@ -15,12 +15,15 @@ $outDoc = $firestorage->setDocument($doc, [
     "email" => "adriano_mail@hotmail.com",
     "social" => [
         [
-            "github" => [
-                "link" => "https://github.com/adrianowead/"
-            ],
-            "stackoverflow" => [
+            "dev" => [
+                "github" => [
+                    "https://github.com/adrianowead",
+                    "https://github.com/adrianowead/google-firestore-rest-client",
+                ],
                 "https://pt.stackoverflow.com/users/109468/adriano-maciel",
             ],
+        ],
+        [
             "https://www.linkedin.com/in/adrianowead",
         ],
     ]
