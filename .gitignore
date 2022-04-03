@@ -8,3 +8,5 @@ google-account-services\.json
 vendor/
 
 composer\.lock
+
+.env

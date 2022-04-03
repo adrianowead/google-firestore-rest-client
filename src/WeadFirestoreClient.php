@@ -3,7 +3,6 @@
 namespace Wead\Firestore;
 
 use Wead\Firestore\Traits\CloudFirestoreRestClient;
-use Kreait\Firebase\ServiceAccount;
 
 class WeadFirestoreClient
 {

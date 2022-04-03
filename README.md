@@ -33,6 +33,7 @@ require "vendor/autoload.php";
 use \Wead\Firestore\WeadFirestoreClient;
 
 // download this json file from Google Console API
+// https://cloud.google.com/iam/docs/creating-managing-service-account-keys
 $firestorage = new WeadFirestoreClient("./google-account-services.json");
 
 // it's only get collection object, but not create it

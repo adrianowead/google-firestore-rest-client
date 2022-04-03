@@ -1,0 +1,17 @@
+version: '3.7'
+services:
+  wead-firestore:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    ports:
+      - target: 80
+        published: 80
+        protocol: tcp
+        mode: host
+    networks:
+      - wead_firestore
+    volumes:
+      - './:/var/www/html'
+networks:
+  wead_firestore: null
