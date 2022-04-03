@@ -55,6 +55,6 @@ $read = $firestorage->readDocument($doc);
 print_r($read);
 ```
 
-![BuyMeACoffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)
+[![BuyMeACoffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://www.paypal.com/donate/?hosted_button_id=WW7N7R4Z5RA6A)
 
-![PayPal](https://raw.githubusercontent.com/adrianowead/adrianowead/main/img/qr-code-donate.png) [![PayPal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate/?hosted_button_id=WW7N7R4Z5RA6A)
+![PayPal](https://raw.githubusercontent.com/adrianowead/adrianowead/main/img/qr-code-donate.png)
