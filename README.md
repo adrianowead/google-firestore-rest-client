@@ -41,18 +41,45 @@ $collection = $firestorage->getCollection('users');
 
 // set new or existing document inside this collection
 $doc = $firestorage->getDocument($collection, "adriano");
+$doc2 = $firestorage->getDocument($collection, "temp-to-remove"); // delete document example
 
 // insert or update document with content
 // a fild will be removed if already exists online but not informed here
+// suport nested array and objects
 $outDoc = $firestorage->setDocument($doc, [
     "name" => "Adriano Maciel",
-    "email" => "adriano_mail@hotmail.com"
+    "email" => "adriano_mail@hotmail.com",
+    "social" => [
+        [
+            "dev" => [
+                "github" => [
+                    "https://github.com/adrianowead",
+                    "https://github.com/adrianowead/google-firestore-rest-client",
+                ],
+                "https://pt.stackoverflow.com/users/109468/adriano-maciel",
+            ],
+        ],
+        [
+            "https://www.linkedin.com/in/adrianowead",
+        ],
+    ]
 ]);
 
 // get a object with all information and fields inside this document
 $read = $firestorage->readDocument($doc);
 
 print_r($read);
+
+// write and remove temp document
+$outDoc = $firestorage->setDocument($doc2, [
+    "content" => "to be removed"
+]);
+
+$read = $firestorage->readDocument($doc2);
+print_r($read);
+
+// delete doc
+$firestorage->removeDocument($doc2);
 ```
 
 [![BuyMeACoffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://www.paypal.com/donate/?hosted_button_id=WW7N7R4Z5RA6A)
