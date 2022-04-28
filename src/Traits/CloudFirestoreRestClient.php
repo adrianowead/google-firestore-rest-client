@@ -90,6 +90,25 @@ trait CloudFirestoreRestClient
                 echo chr(13) . chr(10);
                 exit;
             }
+        } else if ($method == 'DELETE') {
+            try {
+                $response = $client->delete($uri, [
+                    'headers' => $headers,
+                    'query' => $options,
+                    'debug' => false,
+                ]);
+            } catch (\GuzzleHttp\Exception\ClientException $e) {
+                print_r('Firestore error to remove document: ' . chr(13) . chr(10) . $e->getResponse()->getBody()->getContents() . chr(13) . chr(10) . 'Request: ' . chr(13) . chr(10) . json_encode([
+                    'uri' => $uri,
+                    'method' => $method,
+                    'headers' => $headers,
+                    'query' => $options,
+                ], JSON_PRETTY_PRINT));
+
+                print_r($e->getResponse()->getBody()->getContents());
+                echo chr(13) . chr(10);
+                exit;
+            }
         } else {
             try {
                 $request = new Request($method, $this->getBaseUri($uri), $headers);

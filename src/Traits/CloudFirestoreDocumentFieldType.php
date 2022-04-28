@@ -27,6 +27,22 @@ trait CloudFirestoreDocumentFieldType
         return $response;
     }
 
+    private function delete($doc)
+    {
+        $doc->name = substr($doc->name, -1) == '/' ? substr($doc->name, 0, -1) : $doc->name;
+        $doc->fullName = substr($doc->fullName, -1) == '/' ? substr($doc->fullName, 0, -1) : $doc->fullName;
+
+        $doc->name = self::clearName($doc->name);
+
+        $uri = $this->getBaseUri($doc->fullName);
+
+        $response = $this->makeRequestApi('DELETE', $uri);
+
+        $response->objectType = "document";
+
+        return $response;
+    }
+
     private function updateDocument($doc, $fields = [])
     {
         $doc->name = substr($doc->name, -1) == '/' ? substr($doc->name, 0, -1) : $doc->name;
@@ -37,9 +53,6 @@ trait CloudFirestoreDocumentFieldType
         $uri = $this->getBaseUri($doc->fullName);
 
         $fieldsMapped = self::mapFieldValues(array_reverse(explode("/", $doc->name))[0], $fields);
-
-        print_r($fieldsMapped);
-        exit;
 
         $response = $this->makeRequestApi('PATCH', $uri, $fieldsMapped);
         $response->fullName = $response->name;
