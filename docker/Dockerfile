@@ -1,7 +1,7 @@
 #=======================#
 # composer já instalado #
 #=======================#
-FROM composer:latest AS composer
+FROM composer:1.10.26 AS composer
 
 FROM php:5.6-cli
 
