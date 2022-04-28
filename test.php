@@ -9,6 +9,7 @@ $firestorage = new WeadFirestoreClient("./google-account-services.json");
 $collection = $firestorage->getCollection('users');
 
 $doc = $firestorage->getDocument($collection, "adriano");
+$doc2 = $firestorage->getDocument($collection, "para-apagar");
 
 $outDoc = $firestorage->setDocument($doc, [
     "name" => "Adriano Maciel",
@@ -32,3 +33,13 @@ $outDoc = $firestorage->setDocument($doc, [
 $read = $firestorage->readDocument($doc);
 
 print_r($read);
+
+$outDoc = $firestorage->setDocument($doc2, [
+    "conteudo" => "temporário"
+]);
+
+$read = $firestorage->readDocument($doc2);
+print_r($read);
+
+// excluindo um documento
+$firestorage->removeDocument($doc2);
