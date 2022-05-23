@@ -27,6 +27,18 @@ $outDoc = $firestorage->setDocument($doc, [
         [
             "https://www.linkedin.com/in/adrianowead",
         ],
+        "type_int" => 1,
+        "type_bool" => false,
+        "type_null" => null,
+        "string_empty" => "",
+        "array_empty" => [],
+        "array_null" => [null],
+        "array_bool" => [false],
+        "array_string_empty" => [""],
+        "object_empty" => json_decode('{}'),
+        "object_string_empty" => json_decode('{"0":""}'),
+        "object_null" => json_decode('{"0":null}'),
+        "object_bool" => json_decode('{"0":false}'),
     ]
 ]);
 
