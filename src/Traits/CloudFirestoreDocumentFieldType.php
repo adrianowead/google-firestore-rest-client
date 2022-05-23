@@ -2,6 +2,8 @@
 
 namespace Wead\Firestore\Traits;
 
+use stdClass;
+
 trait CloudFirestoreDocumentFieldType
 {
     abstract public function getDocument($collection, $name);
@@ -76,10 +78,6 @@ trait CloudFirestoreDocumentFieldType
             $fnc = self::testValue($value);
 
             $out["fields"][$field] = call_user_func([self::class, $fnc], $value);
-
-            // if (!$out["fields"][$field]) {
-            //     unset($out["fields"][$field]);
-            // }
         }
 
         return $out;
@@ -117,6 +115,16 @@ trait CloudFirestoreDocumentFieldType
         ];
 
         foreach ($val as $k => $v) {
+            if(empty($v) || !$v) {
+                if(is_array($v)) {
+                    $v = [0 => null];
+                }
+                elseif(is_object($v)) {
+                    $v = new \stdClass;
+                    $v->{"0"} = null;
+                }
+            }
+
             if(is_array($v)) {
                 $fnc = self::testValue($v);
                 $tmpValue = call_user_func([self::class, $fnc], $v);
@@ -147,10 +155,18 @@ trait CloudFirestoreDocumentFieldType
         ];
 
         foreach ($val as $k => $v) {
-            if ($v) {
-                $fnc = self::testValue($v);
-                $result["arrayValue"]["values"][] = call_user_func([self::class, $fnc], $v);
+            if(empty($v) || !$v) {
+                if(is_array($v)) {
+                    $v = [0 => null];
+                }
+                elseif(is_object($v)) {
+                    $v = new \stdClass;
+                    $v->{"0"} = null;
+                }
             }
+
+            $fnc = self::testValue($v);
+            $result["arrayValue"]["values"][] = call_user_func([self::class, $fnc], $v);
         }
 
         return sizeof($result["arrayValue"]["values"]) > 0 ? $result : false;
@@ -160,11 +176,11 @@ trait CloudFirestoreDocumentFieldType
         $result = null;
 
         if (is_object($value)) {
-            if (!$value instanceof \Carbon\Carbon) {
-                throw new \Exception("Unknown object type");
+            if ($value instanceof \Carbon\Carbon) {
+                $result = "carbonTimestampField";
             }
 
-            $result = "carbonTimestampField";
+            $result = "mapField";
         } else if (is_numeric($value) && (filter_var($value, FILTER_VALIDATE_INT, ['min_range' => 0]) != false || $value == "0" ) && substr_count($value, ".") == 0) {
             $result = "intField";
         } else if (is_numeric($value) && substr_count($value, ".") > 0 && preg_match('/[^0-9.]/', $value) == 0 && str_split($value)[0] != "0" && substr($value, -1) != "0") {
