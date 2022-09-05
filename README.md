@@ -1,10 +1,9 @@
-# Wead Google Cloud Firestore REST Client
-
-
 > **Warning**
 > This package is _**abandoned**_ in favor of [Cloud Firestore client for PHP](https://packagist.org/packages/google/cloud-firestore).
 > And not will be updated.
 
+
+# Wead Google Cloud Firestore REST Client
 
 Integrate client PHP with REST Api from Google Cloud Firestore.
 
